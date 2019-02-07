@@ -1,0 +1,14 @@
+---
+- name: "Get node info"
+  uri:
+    url: "http://127.0.0.1:9200/_cluster/health"
+    body_format: json
+  register: node_info
+  changed_when: false
+- name: "force node to join cluster"
+  script: ../assets/loop_restart_elastic.py
+  become: true
+  register: looprestart
+  until: looprestart.stdout == awaited_cluster_nodes
+  when: node_info.json.number_of_nodes != awaited_cluster_nodes
+  retries: 20

@@ -1,0 +1,4 @@
+---
+awaited_cluster_color: green
+awaited_cluster_nodes: "1"
+es_port: "9200"

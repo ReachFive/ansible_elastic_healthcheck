@@ -1,0 +1,16 @@
+---
+- name: "get cluster info"
+  run_once: true
+  changed_when: false
+  uri:
+    url: "http://127.0.0.1:9200/_cluster/health"
+    body_format: json
+  register: cluster_status
+- name: "Check Cluster Color"
+  fail:
+    msg: "Bad cluster color"
+  when: "cluster_status.json.status != awaited_cluster_color"
+
+- name: "try to recover node"
+  include_tasks: recover_node.yml
+  when: "cluster_status.json.number_of_nodes|int != awaited_cluster_nodes|int"
