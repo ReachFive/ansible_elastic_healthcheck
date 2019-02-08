@@ -4,6 +4,7 @@ import json
 import subprocess
 import time
 from random import randint
+import sys
 
 def readnodes():
     http_response = requests.get('http://127.0.0.1:9200/_cluster/health')
@@ -23,7 +24,7 @@ while True:
         else:
             break
     time.sleep(30)
-    if loop > 10 or readnodes()!=1:
+    if loop > 1 or readnodes()!=1:
         break
 time.sleep(randint(60, 120))
-print (readnodes())
+sys.stdout.write(str(readnodes()))
