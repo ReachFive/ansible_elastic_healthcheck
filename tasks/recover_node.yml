@@ -6,7 +6,7 @@
   register: node_info
   changed_when: false
 - name: "force node to join cluster"
-  script: ../assets/loop_restart_elastic.py
+  script: "../assets/loop_restart_elastic.py {{awaited_cluster_nodes}}"
   become: true
   register: looprestart
   until: looprestart.stdout == awaited_cluster_nodes
